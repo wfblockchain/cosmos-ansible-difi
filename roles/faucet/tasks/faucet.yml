@@ -5,25 +5,25 @@
     dest: "{{node_user_home}}/cosmos-rest-faucet"
     version: "{{faucet_version}}"
     force: yes
-  become_user: "{{node_user}}"
+  become: yes
 
 - name: Set up python virtual environment
   shell: |
     cd {{node_user_home}}/cosmos-rest-faucet
     python -m venv .env
-  become_user: "{{node_user}}"
+  become: yes
 
 - name: install faucet dependencies
   pip:
     requirements: "{{node_user_home}}/cosmos-rest-faucet/requirements.txt"
     virtualenv: "{{node_user_home}}/cosmos-rest-faucet/.env"
-  become_user: "{{node_user}}"
+  become: yes
 
 - name: configure faucet
   template:
     src: faucet_config.toml.j2
     dest: "{{node_user_home}}/cosmos-rest-faucet/config.toml"
-  become_user: "{{node_user}}"
+  become: yes
 
 - name: configure faucet service
   template:

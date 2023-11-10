@@ -29,9 +29,9 @@
 # Get chain_version number
 - name: parse version
   set_fact:
-    major_version: '{{ chain_version.split(".")[0][1:] }}'
-    minor_version: '{{ chain_version.split(".")[1] }}'
-    patch_version: '{{ chain_version.split(".")[2] }}'
+    major_version: '{{ chain_version}}'
+    minor_version: '{{ chain_version}}'
+    patch_version: '{{ chain_version}}'
   when: major_version is undefined and patch_version is undefined
   tags:
     - chain_reset
@@ -156,7 +156,7 @@
     group: '{{node_user}}'
 
 - name: Download chain binary from release
-  when: not chain_version in chain_current_version.stdout and chain_binary_source == "release"
+  when: chain_binary_source == "release"
   get_url:
     url: "{{ chain_binary_release }}"
     dest: "{{chain_bin}}"
@@ -164,23 +164,44 @@
     force: true
   become_user: "{{node_user}}"
 
+- name: Remove existing chain repository
+  file:
+    path: "{{chain_repo_dir}}"
+    state: absent
+
 - name: Clone chain repo
-  when: not chain_version in chain_current_version.stdout and chain_binary_source == "build"
+  when: chain_binary_source == "build"
   git:
     repo: "{{chain_repository}}"
     dest: "{{chain_repo_dir}}"
     version: "{{chain_version}}"
     force: yes
-  become_user: "{{node_user}}"
+  become: yes
+
+# - name: Install chain
+#   when: chain_binary_source == "build"
+#   shell: |
+#     PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+#     go build -v -o /root/go/bin/difid -mod readonly -tags app_v1 -gcflags "all=-N -l -buildvcs=false" ./cmd/difid
+#     pwd 
+#     ignite chain serve > /home/puneeth/Desktop/logs/chain.log 2>&1
+#   args:
+#     chdir: "/home/difi/chains/chains/difi"
+#   become_user: "{{node_user}}"
+#   register: install_output
+
+# - name: Print install logs
+#   command: cat /home/puneeth/Desktop/logs/chain.log
+#   when: install_output.rc == 0 
 
 - name: Install chain
-  when: not chain_version in chain_current_version.stdout and chain_binary_source == "build"
+  become: yes
   shell: |
     PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
-    make install
   args:
     chdir: "{{chain_repo_dir}}"
-  become_user: "{{node_user}}"
+  become_user: "{{ node_user }}"
+
 
 # Download and extract chain archive
 - name: Remove {{chain_home}}
@@ -260,8 +281,8 @@
   # TODO: should we overwrite?
   shell: |
     cd $HOME
-    {{chain_bin}} init {{ chain_moniker }} --home {{chain_home}} --chain-id {{chain_id}}
-  become_user: "{{node_user}}"
+    /home/puneeth/go/bin/difid init {{ chain_moniker }} --home {{chain_home}} --chain-id {{chain_id}}
+  become: yes
 
 - name: Add chain bin from go/bin to .bashrc PATH
   when: not (use_cosmovisor | default(false) | bool)
@@ -286,8 +307,8 @@
   when: (use_cosmovisor | default(false) | bool) and (not cosmovisor_version in cosmovisor_current.stdout)
   shell: |
     PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
-    go install {{cosmovisor_repository}}@{{cosmovisor_version}}
-  become_user: "{{node_user}}"
+    go install {{cosmovisor_repository}}@{{cosmovisor_version}} 
+  become: yes
 
 ## Configure cosmovisor
 - name: Prepare cosmovisor folder
@@ -303,7 +324,7 @@
   copy:
     # force: false
     remote_src: true
-    src: '{{ chain_bin }}'
+    src: /home/puneeth/go/bin/difid
     dest: '{{ cosmovisor_home }}/genesis/bin/{{chain_binary_name}}'
     owner: '{{node_user}}'
     group: '{{node_user}}'

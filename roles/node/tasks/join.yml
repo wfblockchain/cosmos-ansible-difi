@@ -12,7 +12,8 @@
 #   stat:
 #     path: "{{chain_home}}/config/genesis.json"
 #     get_checksum: false
-#   register: genesis_file_exists
+#   register: genesis_file_exists 
+
 - name: check if genesis_file is gz or not
   when: genesis_file is defined
   stat:

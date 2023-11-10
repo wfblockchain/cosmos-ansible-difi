@@ -1,0 +1,34 @@
+---
+# yamllint disable rule:line-length
+all:
+  vars:
+    chain_home_clear: true
+    chain_binary_name: difid
+    node_user: difi
+    chain_version: main
+    node_user_home: "/home/{{node_user}}"
+    chain_home: "{{node_user_home}}/.difi"
+    chain_home_clear: false
+    node_unsafe_reset: false
+    chain_repository: "https://Roshini1306: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@github.com/wfblockchain/distributed_finance.git"
+    # genesis_url: "https://raw.githubusercontent.com/CosmWasm/testnets/master/malaga-420/config/genesis.json"
+    chain_repo_dir: "{{ node_user_home }}"
+    chain_binary_release: "/home/go/bin/difid"
+    chain_binary_source: "build"
+    chain_bin: "/home/puneeth/go/bin/difid"
+    node_service_name: "difid"
+    chain_denom: stake
+    chain_create_validator: true
+    faucet_enabled: true
+    ansible_user: puneeth
+    reboot: false
+  children:
+    node:
+      hosts:
+        "localhost":
+          fast_sync: false
+          chain_id: difi
+          chain_moniker: cosmos-node
+          node_user: difi
+          node_user_home: "/home/{{node_user}}"
+          chain_home: "{{node_user_home}}/.difi"
