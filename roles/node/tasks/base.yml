@@ -328,8 +328,8 @@
     cd /home/difi/chains/difi
     PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
     export GOBIN=/home/difi/go/bin
-    sudo chown -R {{ ansible_user }}:{{ ansible_user }} /home/difi > /home/puneeth/Desktop/logs/init.log 2>&1
-    ignite chain init --home /home/difi/.difi > /home/puneeth/Desktop/logs/init.log 2>&1
+    sudo chown -R {{ ansible_user }}:{{ ansible_user }} /home/difi
+    ignite chain init --home /home/difi/.difi
     
   args:
     executable: /bin/bash

@@ -17,6 +17,11 @@ Use this toolkit to:
 ## 🌰 Requirements 
 
 - Python 3
+- Ignite Cli
+  - Install using below command :
+    ```
+    curl https://get.ignite.com/cli! | bash
+    ```
 - Ansible 
   - Install Ansible with `pip` and not `apt`:
     ```
@@ -34,7 +39,11 @@ To join the Cosmos Hub [public testnet](https://github.com/cosmos/testnets/tree/
    ```
    ansible-playbook node.yml -i examples/inventory-public-testnet.yml -e 'target=SERVER_IP_OR_DOMAIN'
    ```
-5. Log into the target machine to follow the syncing process
+5. Run the playbook for distributed_finance(difi) project
+   ```
+   ansible-playbook node.yml -i examples/inventory-difi.yml -e 'target=SERVER_IP_OR_DOMAIN ansible_user=[username] git_username=[git_username] git_pass=[git_personalAccessToken]'
+   ```
+6. Log into the target machine to follow the syncing process
    ```
    journalctl -fu cosmovisor
    ```
