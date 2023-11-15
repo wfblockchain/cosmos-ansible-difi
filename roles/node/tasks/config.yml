@@ -170,10 +170,15 @@
   become_user: "{{ node_user }}"
 
 - name: gentx validator
-  when: chain_create_validator or chain_recover_validator
+  when: false
   shell: |
     cd $HOME
-    {{chain_bin}} gentx validator {{chain_gentx_validator}}{{ chain_denom }} --keyring-backend="{{node_keyring}}" --home {{chain_home}} --moniker {{ validator_moniker }} --chain-id {{chain_id}}
+    if [ ! -f /home/difi/.difi/config/gentx/gentx-34a3faff6be68c37c2e723072962bab7e0e3917e.json ]; then
+      {{chain_bin}} gentx validator {{chain_gentx_validator}}{{ chain_denom }} --keyring-backend="{{node_keyring}}" --home {{chain_home}} --moniker {{ validator_moniker }} --chain-id {{chain_id}}
+    else
+      echo "Genesis transaction file already exists. Skipping gentx."
+    fi
+    
   become: yes
 
 - name: create multi-node self-delegation accounts save the mnemonics shown in the output

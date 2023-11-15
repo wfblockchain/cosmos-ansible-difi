@@ -169,14 +169,59 @@
     path: "{{chain_repo_dir}}"
     state: absent
 
-- name: Clone chain repo
+# - name: Clone repository
+#   tasks:
+# - name: Include encrypted credentials
+#   include_vars: 
+#     file: "/home/puneeth/cosmos-ansible/examples/vars/vault.yml"
+
+# - name: Clone repository with interactive prompts
+#   # hosts: localhost
+#   tasks:
+
+
+# - name: Debug Information
+#   debug:
+#     var: ansible_user
+
+
+# - name: Debug Information
+#   debug:
+#     var: ansible_git_user
+
+# - name: Debug Information
+#   debug:
+#     var: ansible_git_password
+
+
+- name: Clone repository using HTTPS with credentials
   when: chain_binary_source == "build"
   git:
     repo: "{{chain_repository}}"
     dest: "{{chain_repo_dir}}"
-    version: "{{chain_version}}"
+    version: "main"
+    accept_hostkey: yes
     force: yes
+    recursive: yes
+    clone: yes
+    update: yes
   become: yes
+
+# - name: Clone chain repo
+#   when: chain_binary_source == "build"
+#   # shell: |
+#   #   cd /home/puneeth
+#   #   mkdir difi
+#   #   cd /home/puneeth/difi
+#   #   pwd
+#   #   git clone git@github.com:wfblockchain/distributed_finance.git > /home/puneeth/Desktop/logs/clone.log 2>&1
+#   #   force: yes
+#   git:
+#     repo: "git@github.com:wfblockchain/distributed_finance.git"
+#     dest: "/home/puneeth/difi"
+#     version: "{{chain_version}}"
+#     force: yes
+#   become: yes
 
 # - name: Install chain
 #   when: chain_binary_source == "build"
@@ -198,6 +243,7 @@
   become: yes
   shell: |
     PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+
   args:
     chdir: "{{chain_repo_dir}}"
   become_user: "{{ node_user }}"
@@ -275,14 +321,30 @@
   become_user: "{{node_user}}"
   delegate_to: "{{ genesis_node }}"
 
-# Initialize chain home
-- name: initialize chain
-  when: (chain_home_clear | default(false) | bool) or not chain_home_exists.stat.exists
-  # TODO: should we overwrite?
-  shell: |
-    cd $HOME
-    /home/puneeth/go/bin/difid init {{ chain_moniker }} --home {{chain_home}} --chain-id {{chain_id}}
+- name: Give Permissions and Initialize chain
   become: yes
+  become_user: "{{ ansible_user }}"
+  shell: |
+    cd /home/difi/chains/difi
+    PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+    export GOBIN=/home/difi/go/bin
+    sudo chown -R {{ ansible_user }}:{{ ansible_user }} /home/difi > /home/puneeth/Desktop/logs/init.log 2>&1
+    ignite chain init --home /home/difi/.difi > /home/puneeth/Desktop/logs/init.log 2>&1
+    
+  args:
+    executable: /bin/bash
+
+# # Initialize chain home
+# - name: initialize chain
+#   when: (chain_home_clear | default(false) | bool) or not chain_home_exists.stat.exists
+#   # TODO: should we overwrite?
+#   shell: |
+#     cd $HOME
+#     chmod +x /home/difi/chains/difi
+#     sudo chown -R {{ ansible_user }}:{{ ansible_user }} /home/difi 
+#     /home/difi/chains/difi ignite chain init --home {{chain_home}}
+#   become: yes
+#     # /home/puneeth/go/bin/difid init {{ chain_moniker }} --home {{chain_home}} --chain-id {{chain_id}}
 
 - name: Add chain bin from go/bin to .bashrc PATH
   when: not (use_cosmovisor | default(false) | bool)
@@ -324,7 +386,7 @@
   copy:
     # force: false
     remote_src: true
-    src: /home/puneeth/go/bin/difid
+    src: '{{chain_bin}}'
     dest: '{{ cosmovisor_home }}/genesis/bin/{{chain_binary_name}}'
     owner: '{{node_user}}'
     group: '{{node_user}}'
