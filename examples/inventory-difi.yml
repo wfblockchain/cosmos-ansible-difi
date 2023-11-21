@@ -2,27 +2,28 @@
 # yamllint disable rule:line-length
 all:
  vars:
-   chain_home_clear: true
-   chain_binary_name: difid
-   node_user: difi
-   chain_version: main
-   node_user_home: "/home/{{node_user}}"
-   chain_home: "{{node_user_home}}/.difi"
-   chain_home_clear: false
-   node_unsafe_reset: false
-   ansible_git_user: "{{ git_username }}"
-   ansible_git_password: "{{ git_pass }}" # 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
-   chain_repository: "https://{{ ansible_git_user }}:{{ ansible_git_password }}@github.com/wfblockchain/distributed_finance.git"
-   # genesis_url: "https://raw.githubusercontent.com/CosmWasm/testnets/master/malaga-420/config/genesis.json"
-   chain_repo_dir: "{{ node_user_home }}"
-   chain_binary_source: "build"
-   chain_bin: "{{ node_user_home }}/go/bin/{{chain_binary_name}}"
-   node_service_name: "difid"
-   chain_denom: stake
-   chain_create_validator: true
-   faucet_enabled: true
-   ansible_user: "{{ ansible_user }}"
-   reboot: false
+    chain_home_clear: true
+    chain_binary_name: difid
+    node_user: difi
+    chain_version: main
+    node_user_home: "/home/{{node_user}}"
+    chain_home: "{{node_user_home}}/.difi"
+    chain_bin_home: "{{ node_user_home }}/go/bin"
+    chain_home_clear: false
+    node_unsafe_reset: false
+    ansible_git_user: "{{ git_username }}"
+    ansible_git_password: "{{ git_pass }}" # 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
+    chain_repository: "https://{{ ansible_git_user }}:{{ ansible_git_password }}@github.com/wfblockchain/distributed_finance.git"
+    # genesis_url: "https://raw.githubusercontent.com/CosmWasm/testnets/master/malaga-420/config/genesis.json"
+    chain_repo_dir: "{{ node_user_home }}"
+    chain_binary_source: "build"
+    chain_bin: "{{ node_user_home }}/go/bin/{{chain_binary_name}}"
+    node_service_name: "difid"
+    chain_denom: stake
+    chain_create_validator: true
+    faucet_enabled: true
+    ansible_user: "{{ ansible_user }}"
+    reboot: false
  children:
    node:
      hosts:
