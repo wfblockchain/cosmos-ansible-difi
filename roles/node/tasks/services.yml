@@ -76,10 +76,10 @@
 #   become: yes
 
 
-- name: Running the chain 
-  shell: |
-    export PATH=$PATH:$HOME/go/bin
-    {{ chain_bin }} start --log_level debug --pruning nothing --grpc.address :10192 --home {{ chain_home }}
-  async: 600
-  poll: 0
-  become: yes
+# - name: Running the chain 
+#   shell: |
+#     export PATH=$PATH:$HOME/go/bin
+#     {{ chain_bin }} start --log_level debug --pruning nothing --grpc.address :10192 --home {{ chain_home }} > /home/puneeth/Desktop/logs/chain.log 2>&1
+#   async: 10000
+#   poll: 0
+#   become: yes

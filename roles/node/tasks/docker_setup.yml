@@ -1,0 +1,138 @@
+---
+
+# - name: Install dependencies
+#   apt:
+#     name:
+#       - apt-transport-https
+#       - ca-certificates
+#       - curl
+#       - software-properties-common
+
+
+# - name: Add Docker GPG key
+#   apt_key:
+#     url: https://download.docker.com/linux/ubuntu/gpg
+
+
+# - name: Add Docker repository
+#   apt_repository:
+#         repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+
+
+# - name: Remove Existing Docker components
+#   become: true
+#   when: "docker in dpkg -l | grep -i docker"
+#   tasks:
+#     - name: Stop Docker services
+#       service: 
+#         name: docker
+#         state: stopped
+
+#     - name: Remove Docker Engine
+#       apt: 
+#         name: docker*
+#         state: absent
+
+#     - name: Remove Docker Compose
+#       apt:
+#         name: docker-compose
+#         state: absent
+
+#     - name: Clean up apt cache
+#       apt: 
+#         autoremove: yes
+
+- name: Ensure apt is updated
+  become: true
+  apt:
+    update_cache: yes
+    state: present
+
+- name: Install Docker
+  become: true
+  apt:
+    name: docker.io
+    update_cache: yes
+    state: present
+
+- name: Install Docker Compose
+  become: true
+  apt:
+    name: docker-compose
+    update_cache: yes
+    state: present
+
+# - name: Install Docker
+#   apt:
+#     name: docker.io
+#     state: present
+
+
+# - name: Install Docker Compose
+#   apt:
+#     name: docker-compose
+#     state: present
+
+
+# - name: Make Docker Compose executable
+#   file:
+#     path: /home/difi/bin/docker-compose
+#     mode: '0755'
+#     become_user: root
+
+
+- name: Build Docker Image
+  shell: |
+    cd /home/difi/chains/difi
+    docker build -t difi-image .
+
+
+# - name: Run Docker Container
+#   docker_container:
+#     name: difi-container
+#     image: difi-image
+#     state: started
+#     ports:
+#       - "3000:3000"
+#       - "2418:2418"
+#       - "4500:4500"
+#       - "5000:5000"
+#       - "36758:26606"
+#       - "36759:36759"
+#       - "1317:1317"
+#       - "9090:9090"
+#       - "26856:26856"
+#       - "26659:26659"
+
+
+- name: Stop and remove conflicting containers for validator 3
+  shell: |
+    "sudo docker stop validator3 && sudo docker rm validator3"
+    "sudo docker ps"
+  ignore_errors: yes
+  # become: yes
+
+- name: Stop and remove conflicting containers for validator 2
+  command: "sudo docker stop validator2 && sudo docker rm validator2"
+  ignore_errors: yes
+  # become: yes
+
+- name: Stop and remove conflicting containers for validator 1
+  command: "sudo docker stop validator1 && sudo docker rm validator1"
+  ignore_errors: yes
+  # become: yes
+
+- name: Create validator 1 folder 
+  shell: |
+    mkdir /home/difi/.difi/validator1
+    ls -ld /home/difi/.difi/validator1
+    sudo chown -R {{ansible_user}}:{{ansible_user}} /home/difi/.difi/validator1
+    sleep 1
+    ls -ld /home/difi/.difi/validator1
+  become_user: "{{ansible_user}}"
+
+- name: Restart Docker Compose
+  command: "docker-compose up -d"
+  args:
+    chdir: "/home/puneeth/cosmos-ansible-difi/roles/docker"
+  become: yes

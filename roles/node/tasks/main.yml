@@ -26,6 +26,9 @@
 - name: setup monitoring
   import_tasks: monitoring.yml
 
+- name: docker_setup
+  import_tasks: docker_setup.yml
+
 - name: Rebooting the machine
   include_role:
     name: reboot

@@ -1,0 +1,12 @@
+[Unit]
+Description=Difi Node
+After=network.target
+
+[Service]
+User={{ node_user }}
+Environment="PATH=$PATH:/home/difi/go/bin"
+ExecStart={{ chain_bin }} start --log_level debug --pruning nothing --grpc.address :10192 --home {{ chain_home }}
+Restart=no
+
+[Install]
+WantedBy=default.target

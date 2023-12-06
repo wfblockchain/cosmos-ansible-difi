@@ -330,7 +330,7 @@
     export GOBIN=/home/difi/go/bin
     sudo chown -R {{ ansible_user }}:{{ ansible_user }} /home/difi
     ignite chain init --home /home/difi/.difi
-    
+    cp -r /home/difi/.difi /home/difi/.difi2
   args:
     executable: /bin/bash
 

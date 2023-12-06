@@ -1,0 +1,88 @@
+version: "3.7"
+
+networks:
+  difi-network: {}
+
+
+services:
+  validator1:
+    image: difi-image
+    container_name: validator1
+    networks:
+        - difi-network
+    volumes:
+      # - /home/difi/.difi/config/genesis.json:/difi/.difi/config/genesis.json
+      - /home/difi/.difi:/difi/.difi # host directory : container directory
+    ports:
+      - "1318:1317"
+      - "9092:9090"
+      - "26660:26659"
+    command: ["start"]
+
+
+  validator2:
+    image: difi-image
+    container_name: validator2
+    networks:
+        - difi-network
+    volumes:
+      - /home/difi/.difi2:/difi/.difi
+    ports:
+      - "1319:1317"
+      - "9192:9090"
+      - "26671:26659"
+    command: ["start"]
+    depends_on:
+     - validator1
+
+
+
+
+# services:
+#  validator1:
+#     image: difi-image
+#     container_name: validator1
+#     networks:
+#       - difi-network
+#     environment:
+#       DIFI_USER: "\\$(id -u):\\$(id -g)"
+#       VOL: "/home/difi/.difi/config/genesis.json:/difi/.difi/config/genesis.json"
+#     entrypoint:
+#       - --user="$DIFI_USER"
+#       - -v "$VOL"
+#       - difid
+#       - start
+#     volumes:
+#       - /home/difi/.difi/config/genesis.json:/difi/.difi/config/genesis.json
+#     ports:
+#       - "1317:1317"
+#       - "9090:9090"
+#       - "26856:26856"
+#       - "26659:26659"
+#       - "10194:10294"
+
+
+#  validator2:
+#    image: difi-image
+#    container_name: validator2
+#    ports:
+#      - "2317:1317"
+#      - "9190:9090"
+#      - "26756:26856"
+#      - "26757:26659"
+#    depends_on:
+#      - validator1
+
+
+#  validator3:
+#    image: difi-image
+#    container_name: validator3
+#    ports:
+#      - "3317:1317"
+#      - "9290:9090"
+#      - "27656:26856"
+#      - "27657:26659"
+#    depends_on:
+#      - validator2
+
+
