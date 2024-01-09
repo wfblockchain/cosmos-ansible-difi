@@ -9,12 +9,18 @@
      ```bash
      ansible-playbook node.yml -i examples/inventory-difi.yml -e 'target=SERVER_IP_OR_DOMAIN ansible_user=[username] git_username=[git_username] git_pass=[git_personalAccessToken]'
      ```
-     
-2. **Role Inclusion:**
+
+2. **Inventory File:**
+    - ***Location:*** `examples/inventory-difi.yml`
+    - ***Purpose:***
+        - Defines variables for the difi Git repository and other configurations.
+        - Specifies target hosts for Ansible playbooks.
+
+3. **Role Inclusion:**
 
    - The `node.yml` playbook includes the `node` role, which executes tasks defined in `roles/node/main.yml`.
 
-3. **Task Organization:**
+4. **Task Organization:**
 
    - `main.yml` imports tasks from other YAML files:
 
@@ -32,7 +38,7 @@
        - Modify the config files
        - Deploys containers using Docker Compose
 
-4. **Docker Compose:**
+5. **Docker Compose:**
 
    - `docker_compose.yml` (located in the `cosmos-ansible-difi` folder) defines container configurations for validator nodes.
 
