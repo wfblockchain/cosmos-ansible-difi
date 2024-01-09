@@ -5,7 +5,7 @@ all:
     chain_home_clear: true
     chain_binary_name: difid
     node_user: difi
-    chain_version: main
+    chain_version: main #inteam/ansible
     node_user_home: "/home/{{node_user}}"
     chain_home: "{{node_user_home}}/.difi"
     chain_bin_home: "{{ node_user_home }}/go/bin"
@@ -23,6 +23,7 @@ all:
     chain_create_validator: true
     faucet_enabled: true
     ansible_user: "{{ ansible_user }}"
+    passphrase: "password"
     reboot: false
  children:
    node:

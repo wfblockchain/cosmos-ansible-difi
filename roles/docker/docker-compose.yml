@@ -12,12 +12,14 @@ services:
         - difi-network
     volumes:
       # - /home/difi/.difi/config/genesis.json:/difi/.difi/config/genesis.json
-      - /home/difi/.difi:/difi/.difi # host directory : container directory
+      - /home/difi/docker/validator1:/difi/.difi # host directory : container directory
     ports:
-      - "1318:1317"
+      - "2418:1317"
       - "9092:9090"
       - "26660:26659"
+      - "36758:26656"
     command: ["start"]
+    # user: difi
 
 
   validator2:
@@ -26,16 +28,19 @@ services:
     networks:
         - difi-network
     volumes:
-      - /home/difi/.difi2:/difi/.difi
+      - /home/difi/docker/validator2:/difi/.difi
     ports:
-      - "1319:1317"
+      - "2422:1317"
       - "9192:9090"
       - "26671:26659"
+      - "36762:26656"
     command: ["start"]
     depends_on:
      - validator1
 
 
+# volumes:
+#  difi_data:
 
 
 # services:

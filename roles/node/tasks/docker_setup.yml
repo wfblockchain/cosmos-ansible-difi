@@ -62,18 +62,6 @@
     update_cache: yes
     state: present
 
-# - name: Install Docker
-#   apt:
-#     name: docker.io
-#     state: present
-
-
-# - name: Install Docker Compose
-#   apt:
-#     name: docker-compose
-#     state: present
-
-
 # - name: Make Docker Compose executable
 #   file:
 #     path: /home/difi/bin/docker-compose
@@ -87,23 +75,175 @@
     docker build -t difi-image .
 
 
-# - name: Run Docker Container
-#   docker_container:
-#     name: difi-container
-#     image: difi-image
-#     state: started
-#     ports:
-#       - "3000:3000"
-#       - "2418:2418"
-#       - "4500:4500"
-#       - "5000:5000"
-#       - "36758:26606"
-#       - "36759:36759"
-#       - "1317:1317"
-#       - "9090:9090"
-#       - "26856:26856"
-#       - "26659:26659"
+- name: Run Docker Container
+  docker_container:
+   name: difi-container
+   image: difi-image
+   state: started
+   ports:
+     - "1317:1317"
+     - "9090:9090"
+     - "26659:26659"
+     - "26658:26658"
 
+- name: Create validators
+  shell: |
+    cd /home/difi/.difi
+    
+  become_user: "{{ansible_user}}"
+  become: yes
+
+- name: Initialize Configuration, for all validators
+  shell: |
+    cd /home/difi/.difi
+
+    mkdir -p validator1
+    mkdir -p validator2
+
+    echo -e validator1'\n'validator2 | xargs -I {} sudo docker run  -i -v $(pwd)/{}:/difi/.difi difi-image init cosmos-node --chain-id difi
+  become_user: "{{ansible_user}}"
+  become: yes
+
+
+- name: Create Validator Operator Keys
+  shell: |
+    cd /home/difi/.difi
+    echo "{{passphrase}}\n{{passphrase}}\n" |
+      sudo docker run --rm -i \
+      -v $(pwd)/validator1:/difi/.difi \
+      difi-image \
+      keys \
+      --keyring-backend file --keyring-dir /difi/.difi/keys \
+      add valA
+
+    echo "{{passphrase}}\n{{passphrase}}" |
+    sudo docker run --rm -i \
+    -v $(pwd)/validator2:/difi/.difi \
+    difi-image \
+    keys \
+    --keyring-backend file --keyring-dir /difi/.difi/keys \
+    add valB
+  become_user: "{{ansible_user}}"
+  become: yes
+
+- name: Retrieve A's Addresses & Add A's Initial Balance to Genesis
+  shell: |
+    cd /home/difi/.difi
+
+    VALA=$(echo "{{passphrase}}" | sudo docker run --rm -i \
+    -v $(pwd)/validator1:/difi/.difi \
+    difi-image \
+    keys \
+    --keyring-backend file --keyring-dir /difi/.difi/keys \
+    show valA --address)
+
+    sudo docker run --rm -it \
+    -v $(pwd)/validator1:/difi/.difi \
+    difi-image \
+    add-genesis-account $VALA 1000000000stake
+
+    mv validator1/config/genesis.json validator2/config
+  become_user: "{{ansible_user}}"
+  become: yes
+
+- name: Retrieve B's Addresses & Add B's Initial Balance to Genesis
+  shell: |
+    cd /home/difi/.difi
+    VALB=$(echo "{{passphrase}}" | sudo docker run --rm -i \
+    -v $(pwd)/validator2:/difi/.difi \
+    difi-image \
+    keys \
+    --keyring-backend file --keyring-dir /difi/.difi/keys \
+    show valB --address)
+
+    sudo docker run --rm -it \
+    -v $(pwd)/validator2:/difi/.difi \
+    difi-image \
+    add-genesis-account $VALB 1000000000stake
+  become_user: "{{ansible_user}}"
+  become: yes
+
+- name: Initial Stakes, B's Stake
+  shell: |
+    cd /home/difi/.difi
+    echo "{{passphrase}}" | sudo docker run --rm -i \
+    -v $(pwd)/validator2:/difi/.difi \
+    difi-image \
+    gentx valB 40000000stake \
+    --keyring-backend file --keyring-dir /difi/.difi/keys \
+    --account-number 0 --sequence 0 \
+    --chain-id difi \
+    --gas 1000000 \
+    --gas-prices 0.1stake
+
+    mv validator2/config/genesis.json validator1/config
+  become_user: "{{ansible_user}}"
+  become: yes
+
+- name: Initial Stakes, A's Stake
+  shell: |
+    cd /home/difi/.difi
+    echo "{{passphrase}}" | sudo docker run --rm -i \
+    -v $(pwd)/validator1:/difi/.difi \
+    difi-image \
+    gentx valA 60000000stake\
+    --keyring-backend file --keyring-dir /difi/.difi/keys \
+    --account-number 0 --sequence 0 \
+    --chain-id difi \
+    --gas 1000000 \
+    --gas-prices 0.1stake
+  become_user: "{{ansible_user}}"
+  become: yes
+
+
+- name: Genesis Assembly
+  shell: |
+    cd /home/difi/.difi
+    cp validator2/config/gentx/gentx-* validator1/config/gentx
+
+    sudo docker run --rm -i \
+    -v $(pwd)/validator1:/difi/.difi \
+    difi-image collect-gentxs
+  become_user: "{{ansible_user}}"
+  become: yes
+
+- name: Confirm valid genesis
+  shell: |
+    cd /home/difi/.difi
+    sudo docker run --rm -i \
+    -v $(pwd)/validator1:/difi/.difi \
+    difi-image validate-genesis
+  become_user: "{{ansible_user}}"
+  become: yes
+
+- name: Gensis Distribution
+  shell: |
+    cd /home/difi/.difi
+    cp validator1/config/genesis.json validator2/config
+  become_user: "{{ansible_user}}"
+  become: yes
+
+
+- name: Show the node Addresses
+  shell: |
+    sudo docker run --rm -i \
+      -v $(pwd)/validator1:/difi/.difi \
+      difi-image \
+      tendermint show-node-id
+
+    sudo docker run --rm -i \
+      -v $(pwd)/validator2:/difi/.difi \
+      difi-image \
+      tendermint show-node-id
+  become_user: "{{ansible_user}}"
+  become: yes
+
+
+- name: Dummy prompt to give time for change the config.toml files
+  pause:
+    prompt: "Enter VPN 2FA: "
+    echo: no
+  register: 2fa_password
 
 - name: Stop and remove conflicting containers for validator 3
   shell: |
@@ -122,14 +262,6 @@
   ignore_errors: yes
   # become: yes
 
-- name: Create validator 1 folder 
-  shell: |
-    mkdir /home/difi/.difi/validator1
-    ls -ld /home/difi/.difi/validator1
-    sudo chown -R {{ansible_user}}:{{ansible_user}} /home/difi/.difi/validator1
-    sleep 1
-    ls -ld /home/difi/.difi/validator1
-  become_user: "{{ansible_user}}"
 
 - name: Restart Docker Compose
   command: "docker-compose up -d"

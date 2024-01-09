@@ -199,7 +199,7 @@
   git:
     repo: "{{chain_repository}}"
     dest: "{{chain_repo_dir}}"
-    version: "main"
+    version: "{{chain_version}}"
     accept_hostkey: yes
     force: yes
     recursive: yes
@@ -239,6 +239,8 @@
 #   command: cat /home/puneeth/Desktop/logs/chain.log
 #   when: install_output.rc == 0 
 
+
+# go build -v -o /root/go/bin/difid -mod readonly -tags app_v1 -gcflags "all=-N -l -buildvcs=false" ./cmd/difid
 - name: Install chain
   become: yes
   shell: |

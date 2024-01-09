@@ -35,18 +35,14 @@ To join the Cosmos Hub [public testnet](https://github.com/cosmos/testnets/tree/
 1. Clone this repository
 2. Run `ansible-galaxy install -r requirements.yml` to install dependencies 
 3. Set up SSH access to the target machine
-4. Run the playbook
-   ```
-   ansible-playbook node.yml -i examples/inventory-public-testnet.yml -e 'target=SERVER_IP_OR_DOMAIN'
-   ```
-5. Run the playbook for distributed_finance(difi) project
+4. Run the playbook for distributed_finance(difi) project
    ```
    ansible-playbook node.yml -i examples/inventory-difi.yml -e 'target=SERVER_IP_OR_DOMAIN ansible_user=[username] git_username=[git_username] git_pass=[git_personalAccessToken]'
    ```
-6. Log into the target machine to follow the syncing process
+<!-- 6. Log into the target machine to follow the syncing process
    ```
    journalctl -fu cosmovisor
-   ```
+   ``` -->
 
 Watch the video below to see the playbook in action:
 
