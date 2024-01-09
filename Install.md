@@ -44,7 +44,7 @@
 
 ## Key Points
 
-- The `target` variable in the playbook command specifies the host server where ansble is running. eg: localhost
+- The `target` variable in the playbook command specifies the host server where ansble is running. e.g., localhost
 - Provide appropriate values for `ansible_user`, `git_username`, and `git_pass`.
 <!-- - Consider renaming `docker_setup.yml` to `multi-node_setup.yml` for clarity. -->
 
