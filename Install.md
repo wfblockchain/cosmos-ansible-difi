@@ -40,7 +40,7 @@
 
 5. **Docker Compose:**
 
-   - `docker_compose.yml` (located in the `cosmos-ansible-difi` folder) defines container configurations for validator nodes.
+   - `docker_compose.yml` (located in the `cosmos-ansible-difi/roles/docker` folder) defines container configurations for validator nodes.
 
 ## Key Points
 

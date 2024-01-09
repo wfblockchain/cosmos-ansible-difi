@@ -15,7 +15,7 @@
 #     keys \
 #     --keyring-backend file --keyring-dir /difi/.difi/keys \
 #     add valA"
-#   become: yes
+#   
 #   account: 1
 #   {{passphrase}}: "{{passphrase}}"
 
@@ -96,7 +96,7 @@
         mkdir -p docker/validator1
         mkdir -p docker/validator2
       become_user: "{{ansible_user}}"
-      become: yes
+      
     
     - name: Initialize Configuration, for all validators
       shell: |
@@ -110,7 +110,7 @@
         init cosmos-node --chain-id difi
 
       become_user: "{{ansible_user}}"
-      become: yes
+      
     
     - name: Create Validator Operator Keys
       shell: |
@@ -131,7 +131,7 @@
         --keyring-backend file --keyring-dir /difi/.difi/keys \
         add valB
       become_user: "{{ansible_user}}"
-      become: yes
+      
 
     - name: Retrieve A's Addresses & Add A's Initial Balance to Genesis
       shell: |
@@ -149,9 +149,9 @@
         difi-image \
         add-genesis-account $VALA 1000000000stake
 
-        mv validator1/config/genesis.json validator2/config
+        mv docker/validator1/config/genesis.json docker/validator2/config
       become_user: "{{ansible_user}}"
-      become: yes
+      
 
     - name: Retrieve B's Addresses & Add B's Initial Balance to Genesis
       shell: |
@@ -168,7 +168,7 @@
         difi-image \
         add-genesis-account $VALB 1000000000stake
       become_user: "{{ansible_user}}"
-      become: yes
+      
 
     - name: Initial Stakes, B's Stake
       shell: |
@@ -183,9 +183,9 @@
         --gas 1000000 \
         --gas-prices 0.1stake
 
-        mv validator2/config/genesis.json validator1/config
+        mv docker/validator2/config/genesis.json docker/validator1/config
       become_user: "{{ansible_user}}"
-      become: yes
+      
 
     - name: Initial Stakes, A's Stake
       shell: |
@@ -200,19 +200,19 @@
         --gas 1000000 \
         --gas-prices 0.1stake
       become_user: "{{ansible_user}}"
-      become: yes
+      
 
 
     - name: Genesis Assembly
       shell: |
         cd /home/difi/.difi
-        cp validator2/config/gentx/gentx-* validator1/config/gentx
+        cp docker/validator2/config/gentx/gentx-* docker/validator1/config/gentx
 
         sudo docker run --rm -i \
         -v $(pwd)/docker/validator1:/difi/.difi \
         difi-image collect-gentxs
       become_user: "{{ansible_user}}"
-      become: yes
+      
 
     - name: Confirm valid genesis
       shell: |
@@ -221,14 +221,14 @@
         -v $(pwd)/docker/validator1:/difi/.difi \
         difi-image validate-genesis
       become_user: "{{ansible_user}}"
-      become: yes
+      
 
     - name: Gensis Distribution
       shell: |
         cd /home/difi/.difi
-        cp validator1/config/genesis.json validator2/config
+        cp docker/validator1/config/genesis.json docker/validator2/config
       become_user: "{{ansible_user}}"
-      become: yes
+      
 
 
     - name: Show the node Addresses
@@ -244,7 +244,7 @@
           difi-image \
           tendermint show-node-id
       become_user: "{{ansible_user}}"
-      become: yes
+      
 
 
     - name: Dummy prompt to give time for change the config.toml files
@@ -253,23 +253,24 @@
         echo: no
       register: 'password_2fa'
 
-    - name: Stop and remove conflicting containers for validator 3
+    # - name: Stop and remove conflicting containers for validator 2
+    #   command: "sudo docker stop validator2 && sudo docker rm validator2"
+    #   ignore_errors: yes
+    #   become: yes
+
+    # - name: Stop and remove conflicting containers for validator 1
+    #   command: "sudo docker stop validator1 && sudo docker rm validator1"
+    #   become: yes
+
+    - name: Stop and remove conflicting containers for validator 1, 2, 3
       shell: |
-        "sudo docker stop validator3 && sudo docker rm validator3"
-        "sudo docker ps"
+        cd /home/puneeth/cosmos-ansible-difi/roles/docker
+        sudo docker stop validator1 && sudo docker rm validator1
+        sudo docker stop validator2 && sudo docker rm validator2
+        sudo docker stop validator3 && sudo docker rm validator3
+        sudo docker-compose ps -a
       ignore_errors: yes
-      # become: yes
-
-    - name: Stop and remove conflicting containers for validator 2
-      command: "sudo docker stop validator2 && sudo docker rm validator2"
-      ignore_errors: yes
-      # become: yes
-
-    - name: Stop and remove conflicting containers for validator 1
-      command: "sudo docker stop validator1 && sudo docker rm validator1"
-      ignore_errors: yes
-      # become: yes
-
+      become_user: "{{ansible_user}}"
 
     - name: Restart Docker Compose
       command: "docker-compose up -d"
@@ -289,7 +290,7 @@
     #         add valA"
     #       account: 1
     #       {{passphrase}}: "{{passphrase}}"
-    #       become: yes
+    #       
           # difid:
           #   command: keys add valA
           #   keyring_backend: file
