@@ -51,7 +51,7 @@
 
 
 
-### Misc
+<!-- ### Misc
 
 we run the node.yml file in playbook command, which includes the node role, which redirects to the roles/node/main.yml file
 
@@ -80,4 +80,4 @@ docker_compose.yml in cosmos-ansible-difi folder
 The command for deployment of containers: 
     ansible-playbook node.yml -i examples/inventory-difi.yml -e 'target=SERVER_IP_OR_DOMAIN ansible_user=[username] git_username=[git_username] git_pass=[git_personalAccessToken]'
 
-
+ -->
