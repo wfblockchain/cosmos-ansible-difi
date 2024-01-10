@@ -101,7 +101,7 @@
   shell: |
     cd /home/difi
 
-    echo "validator1\nvalidator2" \
+    echo validator1'\n'validator2 \
     | xargs -I {} \
     sudo docker run  -i \
     -v $(pwd)/docker/{}:/difi/.difi \
@@ -245,6 +245,12 @@
   become_user: "{{ansible_user}}"
   
 
+- name: Add Peer Addresses to config files
+  shell: |
+    cd ~/cosmos-ansible-difi/roles/node/tasks
+    bash ~/cosmos-ansible-difi/roles/node/tasks/configure_addr.sh 
+  become_user: "{{ansible_user}}"
+
 
 - name: Dummy prompt to give time for change the config.toml files
   pause:
@@ -252,14 +258,6 @@
     echo: no
   register: 'password_2fa'
 
-# - name: Stop and remove conflicting containers for validator 2
-#   command: "sudo docker stop validator2 && sudo docker rm validator2"
-#   ignore_errors: yes
-#   become: yes
-
-# - name: Stop and remove conflicting containers for validator 1
-#   command: "sudo docker stop validator1 && sudo docker rm validator1"
-#   become: yes
 
 - name: Stop and remove conflicting containers for validator 1, 2, 3
   shell: |
@@ -271,8 +269,18 @@
   ignore_errors: yes
   become_user: "{{ansible_user}}"
 
+
 - name: Restart Docker Compose
   command: "docker-compose up -d"
   args:
     chdir: "/home/puneeth/cosmos-ansible-difi/roles/docker"
   become: yes
+
+
+- name: Stop Docker containers
+  shell: |
+    ch /home/puneeth/cosmos-ansible-difi/roles/docker
+    sleep 10
+    sudo docker stop validator1 && sudo docker stop validator2
+  ignore_errors: yes
+  become_user: "{{ansible_user}}"

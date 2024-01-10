@@ -32,7 +32,7 @@
        - Grants permissions and initializes the chain
      - **config.yml, faucet.yml, join.yml:**
        - Adjust permissions (using `become: yes`)
-     - **docker_setup.yml (or multi-node_setup.yml):**
+     - **docker_multinode_setup.yml (or multi-node_setup.yml):**
        - Installs Docker and Docker Compose
        - Initializes multi-node files (genesis, config, etc.)
        - Modify the config files
@@ -46,7 +46,7 @@
 
 - The `target` variable in the playbook command specifies the host server where ansble is running. e.g., localhost
 - Provide appropriate values for `ansible_user`, `git_username`, and `git_pass`.
-<!-- - Consider renaming `docker_setup.yml` to `multi-node_setup.yml` for clarity. -->
+<!-- - Consider renaming `docker_multinode_setup.yml` to `multi-node_setup.yml` for clarity. -->
 
 <!-- ## Additional Notes
 
@@ -61,7 +61,7 @@
 
 we run the node.yml file in playbook command, which includes the node role, which redirects to the roles/node/main.yml file
 
-main.yml file imports tasks from the other files like base.yml, config.yml, docker_setup.yml, etc
+main.yml file imports tasks from the other files like base.yml, config.yml, docker_multinode_setup.yml, etc
 
 base.yml 
     - clone the repo modified
@@ -73,7 +73,7 @@ base.yml
 config.yml, faucet.yml, join.yml, 
     - changed the permissions(become : yes)
 
-docker_setup.yml (can be changed to multi-node_setup.yml)
+docker_multinode_setup.yml (can be changed to multi-node_setup.yml)
     - Install docke, docker compose
     - Initialize and Setup the multinode files like genesis, config, etc.
     - Deploy containers using docker compose

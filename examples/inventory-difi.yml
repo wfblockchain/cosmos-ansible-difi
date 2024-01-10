@@ -20,10 +20,11 @@ all:
     chain_bin: "{{ node_user_home }}/go/bin/{{chain_binary_name}}"
     node_service_name: "difid"
     chain_denom: stake
-    chain_create_validator: true
+    chain_create_validator: false # using for multinode
     faucet_enabled: true
     ansible_user: "{{ ansible_user }}"
     passphrase: "password"
+    multi_node_docker: true # introduced to skip single node intialization tasks
     reboot: false
  children:
    node:
