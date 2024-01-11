@@ -3,17 +3,19 @@
 VALIDATOR_FILES_PATH="/home/difi/docker"
 DOCKER_IMAGE_ID="difi-image"
 
+VAL1_IP_ADDR=""
+VAL2_IP_ADDR=""
 
-# get_peer_addr() {
-#     if [ $2 = "validator1" ];
-#     then
-#         PEER_ADDRESS="$1@validator2:26656"
-#         $PEER_ADDRESS
-#     else
-#         PEER_ADDRESS="$1@validator1:26656"
-#         $PEER_ADDRESS
-#     fi;
-# }
+get_peer_addr() {
+    if [ $2 = "validator1" ];
+    then
+        PEER_ADDRESS="$1@validator2:26656"
+        echo $PEER_ADDRESS
+    else
+        PEER_ADDRESS="$1@validator1:26656"
+        echo $PEER_ADDRESS
+    fi;
+}
 
 
 
@@ -23,10 +25,18 @@ retrieve_peerNodeID() {
         sudo docker run --rm -i -v ${VALIDATOR_FILES_PATH}/validator2:/difi/.difi \
         ${DOCKER_IMAGE_ID} \
         tendermint show-node-id
+
+        # CAN replace with hard coded ip addr
+        # PEER_Id="${VAL2_IP_ADDR}"
+        # echo $PEER_Id
     else
         sudo docker run --rm -i -v ${VALIDATOR_FILES_PATH}/validator1:/difi/.difi \
         ${DOCKER_IMAGE_ID} \
         tendermint show-node-id
+
+        # CAN replace with hard coded ip addr
+        # PEER_Id="${VAL1_IP_ADDR}"
+        # echo $PEER_Id
     fi;
 }
 
@@ -35,14 +45,7 @@ retrieve_peerNodeID() {
 # $3 - config_path
 change_config() {
     # sed -n '/persistent_peers = /p' $3
-    # PEER_ADDR=(get_peer_addr $1 $2)
-
-    if [ $2 = "validator1" ];
-    then
-        PEER_ADDR="$1@validator2:26656"
-    else
-        PEER_ADDR="$1@validator1:26656"
-    fi;
+    PEER_ADDR=$(get_peer_addr $1 $2)
 
     echo $PEER_ADDR
     
