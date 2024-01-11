@@ -45,7 +45,7 @@
 
 # Config file generation
 - name: copy app.toml
-  when: app_toml_file is defined
+  when: app_toml_file is defined and not multi_node_docker
   copy:
     src: '{{app_toml_file}}'
     dest: '{{chain_home}}/config/app.toml'
@@ -114,7 +114,7 @@
 
 # Create validator
 - name: create validator
-  when: chain_create_validator and not chain_recover_validator
+  when: chain_create_validator and not chain_recover_validator and not multi_node_docker
   shell: |
     cd $HOME
     {{chain_bin}} keys add validator --keyring-backend {{node_keyring}} --home {{chain_home}} --output json
@@ -130,7 +130,7 @@
   become: yes
 
 - name: recover validator
-  when: chain_recover_validator
+  when: chain_recover_validator and not multi_node_docker
   shell: |
     cd $HOME
     echo {{ self_delegation_mnemonic }} | {{chain_bin}} keys add validator --keyring-backend {{node_keyring}} --home {{chain_home}} --output json --recover
@@ -254,7 +254,7 @@
     rm temp.json
 
 - name: patch genesis file with specified denom
-  when: not (archive_url is defined)
+  when: not (archive_url is defined) and not multi_node_docker
   replace:
     path: '{{chain_home}}/config/genesis.json'
     regexp: '"stake"'
@@ -381,6 +381,7 @@
 
 ## Patching Config files
 - name: generate config json for patching toml files
+  when: not multi_node_docker
   template:
     src: ansible_vars.json.j2
     dest: '{{chain_home}}/config/ansible_vars.json'
@@ -388,6 +389,7 @@
     group: '{{node_user}}'
 
 - name: patch .toml configs with ansible variables
+  when: not multi_node_docker
   script: |
     copy_config_vars.py --chain_home=$(echo {{chain_home}}) \
       --config_file=$(echo {{chain_home}}/config/ansible_vars.json)

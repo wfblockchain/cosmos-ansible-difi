@@ -252,11 +252,11 @@
   become_user: "{{ansible_user}}"
 
 
-- name: Dummy prompt to give time for change the config.toml files
-  pause:
-    prompt: "Enter VPN 2FA: "
-    echo: no
-  register: 'password_2fa'
+# - name: Dummy prompt to give time for change the config.toml files
+#   pause:
+#     prompt: "Enter VPN 2FA: "
+#     echo: no
+#   register: 'password_2fa'
 
 
 - name: Stop and remove conflicting containers for validator 1, 2, 3
@@ -280,7 +280,7 @@
 - name: Stop Docker containers
   shell: |
     ch /home/puneeth/cosmos-ansible-difi/roles/docker
-    sleep 10
+    sleep 15
     sudo docker stop validator1 && sudo docker stop validator2
   ignore_errors: yes
   become_user: "{{ansible_user}}"

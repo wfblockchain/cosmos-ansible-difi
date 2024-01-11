@@ -21,7 +21,7 @@ all:
     node_service_name: "difid"
     chain_denom: stake
     chain_create_validator: false # using for multinode
-    faucet_enabled: true
+    faucet_enabled: false # not using for multinode
     ansible_user: "{{ ansible_user }}"
     passphrase: "password"
     multi_node_docker: true # introduced to skip single node intialization tasks
