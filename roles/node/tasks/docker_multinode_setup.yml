@@ -201,7 +201,6 @@
   become_user: "{{ansible_user}}"
 
 
-
 - name: Genesis Assembly
   shell: |
     cd /home/difi
