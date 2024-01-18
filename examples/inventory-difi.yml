@@ -12,7 +12,7 @@ all:
     chain_home_clear: false
     node_unsafe_reset: false
     ansible_git_user: "{{ git_username }}"
-    ansible_git_password: "{{ git_pass }}" # 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
+    ansible_git_password: "{{ git_pass }}"
     chain_repository: "https://{{ ansible_git_user }}:{{ ansible_git_password }}@github.com/wfblockchain/distributed_finance.git"
     # genesis_url: "https://raw.githubusercontent.com/CosmWasm/testnets/master/malaga-420/config/genesis.json"
     chain_repo_dir: "{{ node_user_home }}"
@@ -20,7 +20,7 @@ all:
     chain_bin: "{{ node_user_home }}/go/bin/{{chain_binary_name}}"
     node_service_name: "difid"
     chain_denom: stake
-    chain_create_validator: false # using for multinode
+    chain_create_validator: false # not using for multinode
     faucet_enabled: false # not using for multinode
     ansible_user: "{{ ansible_user }}"
     passphrase: "password"

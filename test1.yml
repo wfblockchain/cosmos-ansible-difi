@@ -302,7 +302,7 @@
 
       - name: Stop and remove conflicting containers for validator 1, 2, 3
         shell: |
-          cd /home/puneeth/cosmos-ansible-difi/roles/docker
+          cd /home/{{ansible_user}}/cosmos-ansible-difi/roles/docker
           sudo docker stop validator1 && sudo docker rm validator1
           sudo docker stop validator2 && sudo docker rm validator2
           sudo docker stop validator3 && sudo docker rm validator3
@@ -313,13 +313,13 @@
       - name: Restart Docker Compose
         command: "docker-compose up -d"
         args:
-          chdir: "/home/puneeth/cosmos-ansible-difi/roles/docker"
+          chdir: "/home/{{ansible_user}}/cosmos-ansible-difi/roles/docker"
         become: yes
 
 
       - name: Stop Docker containers
         shell: |
-          ch /home/puneeth/cosmos-ansible-difi/roles/docker
+          ch /home/{{ansible_user}}/cosmos-ansible-difi/roles/docker
           sleep 10
           sudo docker stop validator1 && sudo docker stop validator2
         ignore_errors: yes
