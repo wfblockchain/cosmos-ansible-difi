@@ -172,7 +172,7 @@
 # - name: Clone repository
 #   tasks:
 # - name: Include encrypted credentials
-#   include_vars: 
+#   include_vars:
 #     file: "/home/{{ansible_user}}/cosmos-ansible/examples/vars/vault.yml"
 
 # - name: Clone repository with interactive prompts
@@ -228,7 +228,7 @@
 #   shell: |
 #     PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
 #     go build -v -o /root/go/bin/difid -mod readonly -tags app_v1 -gcflags "all=-N -l -buildvcs=false" ./cmd/difid
-#     pwd 
+#     pwd
 #     ignite chain serve > /home/{{ansible_user}}/Desktop/logs/chain.log 2>&1
 #   args:
 #     chdir: "/home/difi/chains/chains/difi"
@@ -237,7 +237,7 @@
 
 # - name: Print install logs
 #   command: cat /home/{{ansible_user}}/Desktop/logs/chain.log
-#   when: install_output.rc == 0 
+#   when: install_output.rc == 0
 
 
 # go build -v -o /root/go/bin/difid -mod readonly -tags app_v1 -gcflags "all=-N -l -buildvcs=false" ./cmd/difid
@@ -344,7 +344,7 @@
 #   shell: |
 #     cd $HOME
 #     chmod +x /home/difi/chains/difi
-#     sudo chown -R {{ ansible_user }}:{{ ansible_user }} /home/difi 
+#     sudo chown -R {{ ansible_user }}:{{ ansible_user }} /home/difi
 #     /home/difi/chains/difi ignite chain init --home {{chain_home}}
 #   become: yes
 #     # /home/{{ansible_user}}/go/bin/difid init {{ chain_moniker }} --home {{chain_home}} --chain-id {{chain_id}}
@@ -372,7 +372,7 @@
   when: (use_cosmovisor | default(false) | bool) and (not cosmovisor_version in cosmovisor_current.stdout)
   shell: |
     PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
-    go install {{cosmovisor_repository}}@{{cosmovisor_version}} 
+    go install {{cosmovisor_repository}}@{{cosmovisor_version}}
   become: yes
 
 ## Configure cosmovisor

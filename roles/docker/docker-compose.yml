@@ -9,7 +9,7 @@ services:
     image: difi-image
     container_name: validator1
     networks:
-        - difi-network
+      - difi-network
     volumes:
       # - /home/difi/.difi/config/genesis.json:/difi/.difi/config/genesis.json
       - /home/difi/docker/validator1:/difi/.difi # host directory : container directory
@@ -26,7 +26,7 @@ services:
     image: difi-image
     container_name: validator2
     networks:
-        - difi-network
+      - difi-network
     volumes:
       - /home/difi/docker/validator2:/difi/.difi
     ports:
@@ -36,7 +36,7 @@ services:
       - "36762:26656"
     command: ["start"]
     depends_on:
-     - validator1
+      - validator1
 
 
 # volumes:
@@ -89,5 +89,3 @@ services:
 #      - "27657:26659"
 #    depends_on:
 #      - validator2
-
-

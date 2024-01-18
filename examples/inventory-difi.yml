@@ -1,15 +1,15 @@
 ---
 # yamllint disable rule:line-length
 all:
- vars:
+  vars:
     chain_home_clear: true
     chain_binary_name: difid
     node_user: difi
-    chain_version: main #inteam/ansible
+    chain_version: main # inteam/ansible
     node_user_home: "/home/{{node_user}}"
     chain_home: "{{node_user_home}}/.difi"
     chain_bin_home: "{{ node_user_home }}/go/bin"
-    chain_home_clear: false
+    # chain_home_clear: false
     node_unsafe_reset: false
     ansible_git_user: "{{ git_username }}"
     ansible_git_password: "{{ git_pass }}"
@@ -26,16 +26,16 @@ all:
     passphrase: "password"
     multi_node_docker: true # introduced to skip single node intialization tasks
     reboot: false
- children:
-   node:
-     hosts:
-       "{{ target }}":
-         fast_sync: false
-         chain_id: difi
-         chain_moniker: cosmos-node
-         node_user: difi
-         node_user_home: "/home/{{node_user}}"
-         chain_home: "{{node_user_home}}/.difi"
+  children:
+    node:
+      hosts:
+        "{{ target }}":
+          fast_sync: false
+          chain_id: difi
+          chain_moniker: cosmos-node
+          node_user: difi
+          node_user_home: "/home/{{node_user}}"
+          chain_home: "{{node_user_home}}/.difi"
 
 
 

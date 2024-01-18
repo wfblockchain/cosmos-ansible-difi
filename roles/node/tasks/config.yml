@@ -178,7 +178,7 @@
     else
       echo "Genesis transaction file already exists. Skipping gentx."
     fi
-    
+
   become: yes
 
 - name: create multi-node self-delegation accounts save the mnemonics shown in the output
