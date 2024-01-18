@@ -6,12 +6,12 @@ all:
     chain_version: v13.0.0
     chain_create_validator: true
     faucet_enabled: true
-    ansible_user: puneeth
+    ansible_user: "{{ ansible_user }}"
     reboot: false
   children:
     node:
       hosts:
-        "localhost":
+        "{{ target }}":
           fast_sync: false
           chain_id: my-testnet
           chain_moniker: cosmos-node

@@ -173,7 +173,7 @@
 #   tasks:
 # - name: Include encrypted credentials
 #   include_vars: 
-#     file: "/home/puneeth/cosmos-ansible/examples/vars/vault.yml"
+#     file: "/home/{{ansible_user}}/cosmos-ansible/examples/vars/vault.yml"
 
 # - name: Clone repository with interactive prompts
 #   # hosts: localhost
@@ -210,15 +210,15 @@
 # - name: Clone chain repo
 #   when: chain_binary_source == "build"
 #   # shell: |
-#   #   cd /home/puneeth
+#   #   cd /home/{{ansible_user}}
 #   #   mkdir difi
-#   #   cd /home/puneeth/difi
+#   #   cd /home/{{ansible_user}}/difi
 #   #   pwd
-#   #   git clone git@github.com:wfblockchain/distributed_finance.git > /home/puneeth/Desktop/logs/clone.log 2>&1
+#   #   git clone git@github.com:wfblockchain/distributed_finance.git > /home/{{ansible_user}}/Desktop/logs/clone.log 2>&1
 #   #   force: yes
 #   git:
 #     repo: "git@github.com:wfblockchain/distributed_finance.git"
-#     dest: "/home/puneeth/difi"
+#     dest: "/home/{{ansible_user}}/difi"
 #     version: "{{chain_version}}"
 #     force: yes
 #   become: yes
@@ -229,14 +229,14 @@
 #     PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
 #     go build -v -o /root/go/bin/difid -mod readonly -tags app_v1 -gcflags "all=-N -l -buildvcs=false" ./cmd/difid
 #     pwd 
-#     ignite chain serve > /home/puneeth/Desktop/logs/chain.log 2>&1
+#     ignite chain serve > /home/{{ansible_user}}/Desktop/logs/chain.log 2>&1
 #   args:
 #     chdir: "/home/difi/chains/chains/difi"
 #   become_user: "{{node_user}}"
 #   register: install_output
 
 # - name: Print install logs
-#   command: cat /home/puneeth/Desktop/logs/chain.log
+#   command: cat /home/{{ansible_user}}/Desktop/logs/chain.log
 #   when: install_output.rc == 0 
 
 - name: Install chain
@@ -344,7 +344,7 @@
 #     sudo chown -R {{ ansible_user }}:{{ ansible_user }} /home/difi 
 #     /home/difi/chains/difi ignite chain init --home {{chain_home}}
 #   become: yes
-#     # /home/puneeth/go/bin/difid init {{ chain_moniker }} --home {{chain_home}} --chain-id {{chain_id}}
+#     # /home/{{ansible_user}}/go/bin/difid init {{ chain_moniker }} --home {{chain_home}} --chain-id {{chain_id}}
 
 - name: Add chain bin from go/bin to .bashrc PATH
   when: not (use_cosmovisor | default(false) | bool)

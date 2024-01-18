@@ -79,7 +79,7 @@
 - name: Running the chain 
   shell: |
     export PATH=$PATH:$HOME/go/bin
-    {{ chain_bin }} start --log_level debug --pruning nothing --grpc.address :10192 --home {{ chain_home }} > /home/puneeth/Desktop/logs/chain.log 2>&1
+    {{ chain_bin }} start --log_level debug --pruning nothing --grpc.address :10192 --home {{ chain_home }} > /home/{{ansible_user}}/Desktop/logs/chain.log 2>&1
   async: 5000
   poll: 10
   become: yes
