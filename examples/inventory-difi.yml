@@ -36,7 +36,3 @@ all:
           node_user: difi
           node_user_home: "/home/{{node_user}}"
           chain_home: "{{node_user_home}}/.difi"
-
-
-
-

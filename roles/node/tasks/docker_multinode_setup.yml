@@ -24,12 +24,12 @@
 #   when: "docker in dpkg -l | grep -i docker"
 #   tasks:
 #     - name: Stop Docker services
-#       service: 
+#       service:
 #         name: docker
 #         state: stopped
 
 #     - name: Remove Docker Engine
-#       apt: 
+#       apt:
 #         name: docker*
 #         state: absent
 
@@ -39,7 +39,7 @@
 #         state: absent
 
 #     - name: Clean up apt cache
-#       apt: 
+#       apt:
 #         autoremove: yes
 
 - name: Ensure apt is updated
@@ -89,13 +89,13 @@
 - name: Create validators
   shell: |
     cd /home/difi
-    
+
     rm -rf docker
-    
+
     mkdir -p docker/validator1
     mkdir -p docker/validator2
   become_user: "{{ansible_user}}"
-  
+
 
 - name: Initialize Configuration, for all validators
   shell: |
@@ -109,7 +109,7 @@
     init cosmos-node --chain-id difi
 
   become_user: "{{ansible_user}}"
-  
+
 
 - name: Create Validator Operator Keys
   shell: |
@@ -130,7 +130,7 @@
     --keyring-backend file --keyring-dir /difi/.difi/keys \
     add valB
   become_user: "{{ansible_user}}"
-  
+
 
 - name: Retrieve A's Addresses & Add A's Initial Balance to Genesis
   shell: |
@@ -150,7 +150,7 @@
 
     mv docker/validator1/config/genesis.json docker/validator2/config
   become_user: "{{ansible_user}}"
-  
+
 
 - name: Retrieve B's Addresses & Add B's Initial Balance to Genesis
   shell: |
@@ -167,7 +167,7 @@
     difi-image \
     add-genesis-account $VALB 1000000000stake
   become_user: "{{ansible_user}}"
-  
+
 
 - name: Initial Stakes, B's Stake
   shell: |
@@ -184,7 +184,7 @@
 
     mv docker/validator2/config/genesis.json docker/validator1/config
   become_user: "{{ansible_user}}"
-  
+
 
 - name: Initial Stakes, A's Stake
   shell: |
@@ -199,7 +199,7 @@
     --gas 1000000 \
     --gas-prices 0.1stake
   become_user: "{{ansible_user}}"
-  
+
 
 
 - name: Genesis Assembly
@@ -211,7 +211,7 @@
     -v $(pwd)/docker/validator1:/difi/.difi \
     difi-image collect-gentxs
   become_user: "{{ansible_user}}"
-  
+
 
 - name: Confirm valid genesis
   shell: |
@@ -220,14 +220,13 @@
     -v $(pwd)/docker/validator1:/difi/.difi \
     difi-image validate-genesis
   become_user: "{{ansible_user}}"
-  
+
 
 - name: Gensis Distribution
   shell: |
     cd /home/difi
     cp docker/validator1/config/genesis.json docker/validator2/config
   become_user: "{{ansible_user}}"
-  
 
 
 - name: Show the node Addresses
@@ -243,12 +242,12 @@
       difi-image \
       tendermint show-node-id
   become_user: "{{ansible_user}}"
-  
+
 
 - name: Add Peer Addresses to config files
   shell: |
     cd ~/cosmos-ansible-difi/roles/node/tasks
-    bash ~/cosmos-ansible-difi/roles/node/tasks/configure_addr.sh 
+    bash ~/cosmos-ansible-difi/roles/node/tasks/configure_addr.sh
   become_user: "{{ansible_user}}"
 
 

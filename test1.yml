@@ -209,7 +209,6 @@
         become_user: "{{ansible_user}}"
 
 
-
       - name: Genesis Assembly
         shell: |
           cd /home/difi
@@ -235,7 +234,6 @@
           cd /home/difi
           cp docker/validator1/config/genesis.json docker/validator2/config
         become_user: "{{ansible_user}}"
-
 
 
       - name: Show the node Addresses
@@ -313,7 +311,7 @@
       - name: Restart Docker Compose
         command: "docker-compose up -d"
         args:
-          chdir: "/home/{{ansible_user}}/cosmos-ansible-difi/roles/docker"
+            chdir: "/home/{{ansible_user}}/cosmos-ansible-difi/roles/docker"
         become: yes
 
 
