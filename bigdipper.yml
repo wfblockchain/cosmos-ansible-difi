@@ -1,6 +1,0 @@
----
-# Configure a bigdipper node
-- hosts: bigdipper
-  become: true
-  roles:
-  - bigdipper

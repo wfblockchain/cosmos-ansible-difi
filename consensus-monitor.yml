@@ -1,6 +1,0 @@
----
-# Configure a bigdipper node
-- hosts: consensus
-  become: true
-  roles:
-  - consensus-monitor
