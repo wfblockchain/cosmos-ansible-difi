@@ -1,4 +1,0 @@
----
-docker_edition: ce
-docker_package_state: present
-docker_service_state: started

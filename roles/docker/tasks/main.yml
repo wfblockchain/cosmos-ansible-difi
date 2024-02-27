@@ -1,8 +1,0 @@
----
-
-- name: Install docker Python API
-  pip:
-    name: docker
-
-- include_role:
-    name: geerlingguy.docker
