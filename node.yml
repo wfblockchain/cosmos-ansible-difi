@@ -2,5 +2,5 @@
 # Configure a chain node
 - hosts: node
   become: true
-  roles:
+  src:
   - node

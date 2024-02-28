@@ -1,3 +1,0 @@
----
-ansible_git_user: "{{ git_username }}"
-ansible_git_password: "{{ git_pass }}"

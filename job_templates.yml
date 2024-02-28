@@ -1,0 +1,16 @@
+---
+
+tower_job_templates:
+
+  - name: Run automation script
+    playbook: inventory/DEV/inventory-noble.yml
+    inventory:
+      dev: inventory/DEV/hosts.ini
+    credentials:
+      - name: ansbl_InnovationTechDLT
+        type: Machine
+    allow_simultaneous: true
+    ask_tags_on_launch: true
+    ask_inventory_on_launch: true
+
+    permissions: public
