@@ -9,10 +9,12 @@
   import_tasks: faucet.yml
   when: faucet_enabled | default(false) | bool
 
-- name: join
-  import_tasks: join.yml
-  when: genesis_file is defined or genesis_url is defined
+## Useful when we have the genesis file or url
+# - name: join
+#   import_tasks: join.yml
+#   when: genesis_file is defined or genesis_url is defined
 
+## Might be useful when connecting to apis
 # - name: setup APIs
 #   import_tasks: apis.yml
 
@@ -20,12 +22,8 @@
     name: faucet
   when: faucet_enabled | default(false) | bool
 
-# - name: setup monitoring
-#   import_tasks: monitoring.yml
-
 - name: setup systemd services
   import_tasks: services.yml
-
 
 - name: Rebooting the machine
   include_role:

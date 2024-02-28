@@ -55,42 +55,11 @@
     - chain_start
     - chain_restart
 
-# - name: Create systemd service file
-#   template:
-#     src: difid.service.j2
-#     dest: /etc/systemd/system/{{ node_service_name }}.service
-#   notify:
-#     - Reload systemd
-
-# - name: Reload systemd
-#   systemd:
-#     name: "{{ node_service_name }}"
-#     state: reloaded
-#   become: yes
-
-# - name: Start the service
-#   systemd:
-#     name: "{{ node_service_name }}"
-#     state: started
-#     enabled: yes
-#   become: yes
-
-# - name: configure systemd service for cosmovisor
-#   when: (use_cosmovisor | default(false) | bool)
-#   template:
-#     src: cosmovisor.service.j2
-#     dest: "/etc/systemd/system/{{cosmovisor_service_name}}.service"
-
-# - name: Enable and start chain service
-#   template:
-#     src: difi_chain.service.j2
-#     dest: "/etc/systemd/system/{{ node_service_name }}.service"
-
-
 - name: Running the difi chain
   shell: |
     export PATH=$PATH:$HOME/go/bin
-    {{ chain_bin }} start --log_level debug --pruning nothing --grpc.address :10192 --home {{ chain_home }} > /home/{{ansible_user}}/Desktop/logs/chain.log 2>&1 &
+    mkdir -p {{chain_home}}/logs
+    {{ chain_bin }} start --log_level debug --pruning nothing --grpc.address :10192 --home {{ chain_home }} > {{chain_home}}/logs/chain.log 2>&1 &
   async: 10
   poll: 5
   become: yes
