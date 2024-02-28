@@ -37,11 +37,11 @@ To join the Cosmos Hub [public testnet](https://github.com/cosmos/testnets/tree/
 3. Set up SSH access to the target machine
 4. Run the playbook
    ```
-   ansible-playbook node.yml -i examples/inventory-public-testnet.yml -e 'target=SERVER_IP_OR_DOMAIN'
+   ansible-playbook node.yml -i inventory/DEV/inventory-public-testnet.yml -e 'target=SERVER_IP_OR_DOMAIN'
    ```
-5. Run the playbook for distributed_finance(difi) project
+5. Run the playbook for noblechain project
    ```
-   ansible-playbook node.yml -i examples/inventory-difi.yml -e 'target=SERVER_IP_OR_DOMAIN ansible_user=[username] git_username=[git_username] git_pass=[git_personalAccessToken]'
+   ansible-playbook node.yml -i inventory/DEV/inventory-noble.yml -e 'target=SERVER_IP_OR_DOMAIN ansible_user=[username]'
    ```
 6. Log into the target machine to follow the syncing process
    ```

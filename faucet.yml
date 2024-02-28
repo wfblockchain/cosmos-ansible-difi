@@ -2,5 +2,5 @@
 # Configure a faucet server
 - hosts: faucet
   become: true
-  src:
+  roles:
   - faucet
