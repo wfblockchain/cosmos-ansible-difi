@@ -25,7 +25,7 @@
   when: chain_create_validator and not chain_recover_validator
   shell: |
     cd $HOME
-    if [ ! -f {{chain_home}}/config/gentx/gentx-34a3faff6be68c37c2e723072962bab7e0e3917e.json ]; then
+    if [ ! -f {{chain_home}}/config/gentx/gentx-*.json ]; then
       {{chain_bin}} gentx validator {{chain_gentx_validator}}{{ chain_denom }} --keyring-backend="{{node_keyring}}" --home {{chain_home}} --moniker {{ validator_moniker }} --chain-id {{chain_id}}
     else
       echo "Genesis transaction file already exists. Skipping gentx."
