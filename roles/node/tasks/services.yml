@@ -55,7 +55,7 @@
     - chain_start
     - chain_restart
 
-- name: Running the difi chain
+- name: Running the {{ chain_id }} chain
   shell: |
     export PATH=$PATH:$HOME/go/bin
     mkdir -p {{chain_home}}/logs

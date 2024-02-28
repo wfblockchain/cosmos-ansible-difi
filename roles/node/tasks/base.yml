@@ -150,16 +150,26 @@
     state: absent
     path: "{{chain_home}}"
 
+# Can modify/add to this task to download the url at the chain_bin_path
+- name: Check if executable file exists at CHAIN_BIN_PATH
+  stat:
+    path: "{{ chain_bin_path }}"
+  register: exec_file_stat
+
+- name: Fail if executable file doesn't exist
+  fail:
+    msg: "File {{ chain_bin_path }} does not exist!"
+  when: not exec_file_stat.stat.exists
+
 - name: Give Permissions and Initialize chain using existing executable
   become: yes
   become_user: "{{ ansible_user }}"
   shell: |
-    # cd /home/difi/chains/difi
-    PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
-    export GOBIN=/home/difi/go/bin
     mkdir -p {{ chain_repo_dir }}
     sudo chown -R {{ ansible_user }}:{{ ansible_user }} {{ node_user_home }}
     mkdir -p {{ chain_bin_home }}
+    PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+    export GOBIN={{ chain_bin_home }}
     cp {{ chain_bin_path }} {{ chain_bin }}
     {{ chain_bin }} init {{ chain_moniker }} --chain-id {{ chain_id }} --home {{ chain_home }}
   args:
