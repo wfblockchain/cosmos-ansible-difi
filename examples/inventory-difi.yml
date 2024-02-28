@@ -21,7 +21,7 @@ all:
     # chain_binary_source: "release"
     # chain_bin: "{{ chain_bin_path }}" # "~/Downloads/difid"
     chain_bin: "{{ node_user_home }}/go/bin/{{chain_binary_name}}" # home/puneeth/difi/go/bin/difid
-
+    use_cosmovisor: false
     node_service_name: "difid"
     chain_denom: stake
     chain_create_validator: true

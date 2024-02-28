@@ -4,27 +4,26 @@ all:
   vars:
     chain_home_clear: true
     chain_binary_name: nobled
-    node_user: noble
+    node_user: "Desktop/noblechain/play_sh/noble-1"
     chain_version: main
     ansible_user: "{{ ansible_user }}"
-    node_user_home: "/home/{{ansible_user}}/{{node_user}}" # /home/puneeth/noble
+    node_user_home: "/home/{{ansible_user}}" # /home/puneeth/
     chain_bin_path: "/home/{{ansible_user}}/go/bin/nobled" # "{{ node_user_home }}/go/bin/{{ chain_binary_name }}"
-    chain_home: "{{node_user_home}}/.noble" # /home/puneeth/noble/.noble
+    chain_home: "/home/puneeth/Desktop/noblechain/play_sh/noble-1" # /home/puneeth/noble/.noble
     chain_bin_home: "{{ node_user_home }}/go/bin"
     # chain_home_clear: false
     node_unsafe_reset: false
-    ansible_git_user: "{{ git_username }}"
-    ansible_git_password: "{{ git_pass }}" # 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
-    chain_repository: "https://{{ ansible_git_user }}:{{ ansible_git_password }}@github.com/wfblockchain/distributed_finance.git"
+    # ansible_git_user: "{{ git_username }}"
+    # ansible_git_password: "{{ git_pass }}" # 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
+    # chain_repository: "https://{{ ansible_git_user }}:{{ ansible_git_password }}@github.com/wfblockchain/distributed_finance.git"
     # genesis_url: "https://raw.githubusercontent.com/CosmWasm/testnets/master/malaga-420/config/genesis.json"
-    chain_repo_dir: "{{ node_user_home }}" # /home/puneeth/noble
+    chain_repo_dir: "{{ node_user_home }}/Desktop/noblechain/play_sh/noble-1" # /home/puneeth/noble
     # chain_binary_source: "release"
     # chain_bin: "{{ chain_bin_path }}" # "~/Downloads/nobled"
-    chain_bin: "{{ node_user_home }}/go/bin/{{chain_binary_name}}" # home/puneeth/noble/go/bin/nobled
-
+    chain_bin: "/home/puneeth/go/bin/{{chain_binary_name}}" # home/puneeth/go/bin/nobled
     node_service_name: "nobled"
     chain_denom: stake
-    chain_create_validator: true
+    chain_create_validator: false
     faucet_enabled: false
     reboot: false
   children:
@@ -35,5 +34,5 @@ all:
           chain_id: noble
           chain_moniker: cosmos-node
           node_user: noble
-          node_user_home: "/home/{{ansible_user}}/{{node_user}}"
-          chain_home: "{{node_user_home}}/.noble"
+          node_user_home: "/home/{{ansible_user}}"
+          chain_home: "/home/puneeth/Desktop/noblechain/play_sh/noble-1" # /home/puneeth/noble/.noble

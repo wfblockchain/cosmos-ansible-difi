@@ -144,11 +144,11 @@
     path: "{{chain_home}}"
   register: chain_home_exists
 
-- name: Clear chain home
-  when: chain_home_clear | default(false) | bool
-  file:
-    state: absent
-    path: "{{chain_home}}"
+# - name: Clear chain home
+#   when: chain_home_clear | default(false) | bool
+#   file:
+#     state: absent
+#     path: "{{chain_home}}"
 
 # Can modify/add to this task to download the url at the chain_bin_path
 - name: Check if executable file exists at CHAIN_BIN_PATH
@@ -162,6 +162,7 @@
   when: not exec_file_stat.stat.exists
 
 - name: Give Permissions and Initialize chain using existing executable
+  when: not chain_home_exists
   become: yes
   become_user: "{{ ansible_user }}"
   shell: |
