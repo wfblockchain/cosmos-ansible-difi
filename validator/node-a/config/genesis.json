@@ -1,0 +1,442 @@
+{
+  "genesis_time": "2024-04-03T14:16:48.784490919Z",
+  "chain_id": "noble-1",
+  "initial_height": "1",
+  "consensus_params": {
+    "block": {
+      "max_bytes": "22020096",
+      "max_gas": "-1",
+      "time_iota_ms": "1000"
+    },
+    "evidence": {
+      "max_age_num_blocks": "100000",
+      "max_age_duration": "172800000000000",
+      "max_bytes": "1048576"
+    },
+    "validator": {
+      "pub_key_types": [
+        "ed25519"
+      ]
+    },
+    "version": {}
+  },
+  "app_hash": "",
+  "app_state": {
+    "auth": {
+      "params": {
+        "max_memo_characters": "256",
+        "tx_sig_limit": "7",
+        "tx_size_cost_per_byte": "10",
+        "sig_verify_cost_ed25519": "590",
+        "sig_verify_cost_secp256k1": "1000"
+      },
+      "accounts": [
+        {
+          "@type": "/cosmos.auth.v1beta1.BaseAccount",
+          "address": "noble1tk0z6smn67cyt592jmd8h75y6du2wdk7acujqa",
+          "pub_key": null,
+          "account_number": "0",
+          "sequence": "0"
+        },
+        {
+          "@type": "/cosmos.auth.v1beta1.BaseAccount",
+          "address": "noble1l2syjg8gc6cyz7pzl6fmamy4m52pk9ffkaqny4",
+          "pub_key": null,
+          "account_number": "0",
+          "sequence": "0"
+        }
+      ]
+    },
+    "authz": {
+      "authorization": []
+    },
+    "bank": {
+      "params": {
+        "send_enabled": [],
+        "default_send_enabled": true
+      },
+      "balances": [
+        {
+          "address": "noble1tk0z6smn67cyt592jmd8h75y6du2wdk7acujqa",
+          "coins": [
+            {
+              "denom": "noble",
+              "amount": "100000000000"
+            },
+            {
+              "denom": "unoble",
+              "amount": "100000000000"
+            }
+          ]
+        },
+        {
+          "address": "noble1l2syjg8gc6cyz7pzl6fmamy4m52pk9ffkaqny4",
+          "coins": [
+            {
+              "denom": "noble",
+              "amount": "100000000000"
+            },
+            {
+              "denom": "unoble",
+              "amount": "100000000000"
+            }
+          ]
+        }
+      ],
+      "supply": [],
+      "denom_metadata": [
+        {
+          "display": "token",
+          "base": "utoken",
+          "name": "token",
+          "symbol": "token",
+          "denom_units": [
+            {
+              "denom": "utoken",
+              "aliases": [
+                "microtoken"
+              ],
+              "exponent": "0"
+            },
+            {
+              "denom": "mtoken",
+              "aliases": [
+                "militoken"
+              ],
+              "exponent": "3"
+            },
+            {
+              "denom": "token",
+              "aliases": [],
+              "exponent": "6"
+            }
+          ]
+        }
+      ]
+    },
+    "capability": {
+      "index": "1",
+      "owners": []
+    },
+    "cctp": {
+      "owner": "",
+      "attester_manager": "",
+      "pauser": "",
+      "token_controller": "",
+      "attester_list": [],
+      "per_message_burn_limit_list": [],
+      "burning_and_minting_paused": {
+        "paused": false
+      },
+      "sending_and_receiving_messages_paused": {
+        "paused": false
+      },
+      "max_message_body_size": null,
+      "next_available_nonce": null,
+      "signature_threshold": null,
+      "token_pair_list": [],
+      "used_nonces_list": [],
+      "token_messenger_list": []
+    },
+    "crisis": {
+      "constant_fee": {
+        "denom": "stake",
+        "amount": "1000"
+      }
+    },
+    "distribution": {
+      "params": {
+        "community_tax": "0.020000000000000000",
+        "base_proposer_reward": "0.010000000000000000",
+        "bonus_proposer_reward": "0.040000000000000000",
+        "withdraw_addr_enabled": true
+      },
+      "fee_pool": {
+        "community_pool": []
+      },
+      "delegator_withdraw_infos": [],
+      "previous_proposer": "",
+      "outstanding_rewards": [],
+      "validator_accumulated_commissions": [],
+      "validator_historical_rewards": [],
+      "validator_current_rewards": [],
+      "delegator_starting_infos": [],
+      "validator_slash_events": []
+    },
+    "evidence": {
+      "evidence": []
+    },
+    "feegrant": {
+      "allowances": []
+    },
+    "fiat-tokenfactory": {
+      "params": {},
+      "blacklistedList": [],
+      "paused": {
+        "paused": false
+      },
+      "masterMinter": null,
+      "mintersList": [],
+      "pauser": null,
+      "blacklister": null,
+      "owner": {
+        "address": "noble1l2syjg8gc6cyz7pzl6fmamy4m52pk9ffkaqny4"
+      },
+      "minterControllerList": [],
+      "mintingDenom": {
+        "denom": "utoken"
+      }
+    },
+    "genutil": {
+      "gen_txs": [
+        {
+          "body": {
+            "messages": [
+              {
+                "@type": "/cosmos.staking.v1beta1.MsgCreateValidator",
+                "description": {
+                  "moniker": "noble-node-a",
+                  "identity": "",
+                  "website": "",
+                  "security_contact": "",
+                  "details": ""
+                },
+                "commission": {
+                  "rate": "0.100000000000000000",
+                  "max_rate": "0.200000000000000000",
+                  "max_change_rate": "0.010000000000000000"
+                },
+                "min_self_delegation": "1",
+                "delegator_address": "noble1tk0z6smn67cyt592jmd8h75y6du2wdk7acujqa",
+                "validator_address": "noblevaloper1tk0z6smn67cyt592jmd8h75y6du2wdk7ngszkr",
+                "pubkey": {
+                  "@type": "/cosmos.crypto.ed25519.PubKey",
+                  "key": "Nh9FmcIvSlLZKriIv2O6E9ktaSEMoGS1yTigjtPb8aI="
+                },
+                "value": {
+                  "denom": "noble",
+                  "amount": "60000000"
+                }
+              }
+            ],
+            "memo": "53078d18a1e9582e5475d89445811766ea6f03b0@10.0.2.15:26656",
+            "timeout_height": "0",
+            "extension_options": [],
+            "non_critical_extension_options": []
+          },
+          "auth_info": {
+            "signer_infos": [
+              {
+                "public_key": {
+                  "@type": "/cosmos.crypto.secp256k1.PubKey",
+                  "key": "A/7xBIpm6ABzWog+htwWoD5LwTVpFfqzPVXdrgO7yJia"
+                },
+                "mode_info": {
+                  "single": {
+                    "mode": "SIGN_MODE_DIRECT"
+                  }
+                },
+                "sequence": "0"
+              }
+            ],
+            "fee": {
+              "amount": [
+                {
+                  "denom": "noble",
+                  "amount": "100000"
+                }
+              ],
+              "gas_limit": "1000000",
+              "payer": "",
+              "granter": ""
+            }
+          },
+          "signatures": [
+            "F6/oS3EcIelVZsxLFuFe8xcVXQJsP1X2XYk+PYMGz5oR9PXBamcjH1mAZspXXqwGHh+RnzRpjWTw7VmifV7T3Q=="
+          ]
+        }
+      ]
+    },
+    "globalfee": {
+      "params": {
+        "minimum_gas_prices": [],
+        "bypass_min_fee_msg_types": [
+          "/ibc.core.client.v1.MsgUpdateClient",
+          "/ibc.core.channel.v1.MsgRecvPacket",
+          "/ibc.core.channel.v1.MsgAcknowledgement",
+          "/ibc.applications.transfer.v1.MsgTransfer",
+          "/ibc.core.channel.v1.MsgTimeout",
+          "/ibc.core.channel.v1.MsgTimeoutOnClose",
+          "/cosmos.params.v1beta1.MsgUpdateParams",
+          "/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade",
+          "/cosmos.upgrade.v1beta1.MsgCancelUpgrade",
+          "/noble.fiattokenfactory.MsgUpdateMasterMinter",
+          "/noble.fiattokenfactory.MsgUpdatePauser",
+          "/noble.fiattokenfactory.MsgUpdateBlacklister",
+          "/noble.fiattokenfactory.MsgUpdateOwner",
+          "/noble.fiattokenfactory.MsgAcceptOwner",
+          "/noble.fiattokenfactory.MsgConfigureMinter",
+          "/noble.fiattokenfactory.MsgRemoveMinter",
+          "/noble.fiattokenfactory.MsgMint",
+          "/noble.fiattokenfactory.MsgBurn",
+          "/noble.fiattokenfactory.MsgBlacklist",
+          "/noble.fiattokenfactory.MsgUnblacklist",
+          "/noble.fiattokenfactory.MsgPause",
+          "/noble.fiattokenfactory.MsgUnpause",
+          "/noble.fiattokenfactory.MsgConfigureMinterController",
+          "/noble.fiattokenfactory.MsgRemoveMinterController",
+          "/noble.tokenfactory.MsgUpdatePauser",
+          "/noble.tokenfactory.MsgUpdateBlacklister",
+          "/noble.tokenfactory.MsgUpdateOwner",
+          "/noble.tokenfactory.MsgAcceptOwner",
+          "/noble.tokenfactory.MsgConfigureMinter",
+          "/noble.tokenfactory.MsgRemoveMinter",
+          "/noble.tokenfactory.MsgMint",
+          "/noble.tokenfactory.MsgBurn",
+          "/noble.tokenfactory.MsgBlacklist",
+          "/noble.tokenfactory.MsgUnblacklist",
+          "/noble.tokenfactory.MsgPause",
+          "/noble.tokenfactory.MsgUnpause",
+          "/noble.tokenfactory.MsgConfigureMinterController",
+          "/noble.tokenfactory.MsgRemoveMinterController"
+        ]
+      }
+    },
+    "ibc": {
+      "client_genesis": {
+        "clients": [],
+        "clients_consensus": [],
+        "clients_metadata": [],
+        "params": {
+          "allowed_clients": [
+            "06-solomachine",
+            "07-tendermint"
+          ]
+        },
+        "create_localhost": false,
+        "next_client_sequence": "0"
+      },
+      "connection_genesis": {
+        "connections": [],
+        "client_connection_paths": [],
+        "next_connection_sequence": "0",
+        "params": {
+          "max_expected_time_per_block": "30000000000"
+        }
+      },
+      "channel_genesis": {
+        "channels": [],
+        "acknowledgements": [],
+        "commitments": [],
+        "receipts": [],
+        "send_sequences": [],
+        "recv_sequences": [],
+        "ack_sequences": [],
+        "next_channel_sequence": "0"
+      }
+    },
+    "ibc-authority": {
+      "params": {
+        "authority": "noble1l2syjg8gc6cyz7pzl6fmamy4m52pk9ffkaqny4"
+      }
+    },
+    "interchainaccounts": {
+      "controller_genesis_state": {
+        "active_channels": [],
+        "interchain_accounts": [],
+        "ports": [],
+        "params": {
+          "controller_enabled": true
+        }
+      },
+      "host_genesis_state": {
+        "active_channels": [],
+        "interchain_accounts": [],
+        "port": "icahost",
+        "params": {
+          "host_enabled": true,
+          "allow_messages": []
+        }
+      }
+    },
+    "packetfowardmiddleware": {
+      "params": {
+        "fee_percentage": "0.000000000000000000"
+      },
+      "in_flight_packets": {}
+    },
+    "params": {
+      "params": {
+        "authority": "noble1l2syjg8gc6cyz7pzl6fmamy4m52pk9ffkaqny4"
+      }
+    },
+    "slashing": {
+      "params": {
+        "signed_blocks_window": "100",
+        "min_signed_per_window": "0.500000000000000000",
+        "downtime_jail_duration": "600s",
+        "slash_fraction_double_sign": "0.050000000000000000",
+        "slash_fraction_downtime": "0.010000000000000000"
+      },
+      "signing_infos": [],
+      "missed_blocks": []
+    },
+    "staking": {
+      "params": {
+        "unbonding_time": "1814400s",
+        "max_validators": 100,
+        "max_entries": 7,
+        "historical_entries": 10000,
+        "bond_denom": "noble"
+      },
+      "last_total_power": "0",
+      "last_validator_powers": [],
+      "validators": [],
+      "delegations": [],
+      "unbonding_delegations": [],
+      "redelegations": [],
+      "exported": false
+    },
+    "tariff": {
+      "params": {
+        "share": "0",
+        "distribution_entities": [],
+        "transfer_fee_bps": "0",
+        "transfer_fee_max": "0",
+        "transfer_fee_denom": ""
+      }
+    },
+    "tokenfactory": {
+      "params": {},
+      "blacklistedList": [],
+      "paused": {
+        "paused": false
+      },
+      "masterMinter": null,
+      "mintersList": [],
+      "pauser": null,
+      "blacklister": null,
+      "owner": {
+        "address": "noble1l2syjg8gc6cyz7pzl6fmamy4m52pk9ffkaqny4"
+      },
+      "minterControllerList": [],
+      "mintingDenom": {
+        "denom": "utoken"
+      }
+    },
+    "transfer": {
+      "port_id": "transfer",
+      "denom_traces": [],
+      "params": {
+        "send_enabled": true,
+        "receive_enabled": true
+      }
+    },
+    "upgrade": {
+      "params": {
+        "authority": "noble1l2syjg8gc6cyz7pzl6fmamy4m52pk9ffkaqny4"
+      }
+    },
+    "vesting": {}
+  }
+}
